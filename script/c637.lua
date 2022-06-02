@@ -37,7 +37,7 @@ function s.initial_effect(c)
 	c:RegisterEffect(e4)
 end
 function s.tfilter(c,scard,sumtype,tp)
-	return c:IsSummonCode(scard,sumtype,tp,63977008) or c:IsHasEffect(20932152)
+	return c:IsSummonCode(scard,sumtype,tp,600) or c:IsHasEffect(20932152)
 end
 function s.splimit(e,se,sp,st)
 	local sc=se:GetHandler()
