@@ -2,7 +2,7 @@
 local s,id=GetID()
 function s.initial_effect(c)
 	--Xyz Summon
-	Xyz.AddProcedure(c,nil,4,2)
+	Xyz.AddProcedure(c,nil,4,5)
 	c:EnableReviveLimit()
 	--Recycle to Special Summon 1 "ZW" or "ZS" monster
 	local e1=Effect.CreateEffect(c)
