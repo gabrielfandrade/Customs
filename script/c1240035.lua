@@ -86,7 +86,7 @@ function s.rtfilter(c,e,tp)
 	return c:IsPreviousLocation(LOCATION_ONFIELD) and c:IsSetCard(0x4d8) and c:IsType(TYPE_MONSTER)
 end
 function s.rmscon(e,tp,eg,ep,ev,re,r,rp)
-	return eg:IsExists(s.rtfilter,1,nil,e,tp)
+	return eg:IsExists(s.rtfilter,1,nil,e,tp) and Duel.GetTurnPlayer()~=tp
 end
 function s.rmstg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
