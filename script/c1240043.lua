@@ -19,7 +19,7 @@ function s.condition(e,tp,eg,ep,ev,re,r,rp)
 	return fc and fc:IsFaceup() and fc:IsSetCard(0x4d8)
 end
 function s.cfilter(c)
-	return c:IsSetCard(0x4d8) and not c:IsPublic() and c:IsAbleToDeck()
+	return c:IsSetCard(0x4d8) and c:IsType(TYPE_FIELD) and not c:IsPublic() and c:IsAbleToDeck()
 end
 function s.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(s.cfilter,tp,LOCATION_HAND,0,1,nil) end
