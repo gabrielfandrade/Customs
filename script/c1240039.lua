@@ -57,7 +57,7 @@ function s.cfilter2(c)
 	return c:IsFaceup() and c:IsSetCard(0x4d8)
 end
 function s.chcon(e)
-	return Duel.IsExistingMatchingCard(s.cfilter2,tp,LOCATION_FZONE,0,1,nil)
+	return Duel.IsExistingMatchingCard(s.cfilter2,e:GetHandlerPlayer(),LOCATION_FZONE,0,1,nil)
 end
 function s.chop(e,tp,eg,ep,ev,re,r,rp)
 	local g=Group.CreateGroup()
