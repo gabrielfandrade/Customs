@@ -30,7 +30,7 @@ function s.initial_effect(c)
 end
 
 function s.ovfilter(c,tp,lc)
-	return c:IsFaceup() and c:IsSetCard(0x1230,lc,SUMMON_TYPE_XYZ,tp)
+	return c:IsFaceup() and c:IsSetCard(0x1230,lc,SUMMON_TYPE_XYZ,tp) and c:IsType(TYPE_XYZ)
 end
 function s.xyzop(e,tp,chk)
 	if chk==0 then return Duel.GetFlagEffect(tp,id)==0 end
