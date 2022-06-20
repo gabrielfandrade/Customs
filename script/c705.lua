@@ -32,7 +32,7 @@ function s.initial_effect(c)
 end
 
 function s.filter(c)
-	return c:IsSetCard(0x6a4) and c:IsAbleToHand()
+	return c:IsSetCard(0x6a4) and not c:IsCode(id) and c:IsAbleToHand()
 end
 function s.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(s.filter,tp,LOCATION_DECK,0,1,nil) end
