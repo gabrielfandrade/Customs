@@ -22,6 +22,13 @@ function s.initial_effect(c)
 	e2:SetTarget(s.thtg)
 	e2:SetOperation(s.thop)
 	c:RegisterEffect(e2)
+	--Activate the turn it is set
+	local e3=Effect.CreateEffect(c)
+	e3:SetType(EFFECT_TYPE_SINGLE)
+	e3:SetCode(EFFECT_QP_ACT_IN_SET_TURN)
+	e3:SetProperty(EFFECT_FLAG_SET_AVAILABLE)
+	e3:SetCondition(s.actcon)
+	c:RegisterEffect(e3)
 end
 
 function s.target(e,tp,eg,ep,ev,re,r,rp,chk)
@@ -40,7 +47,7 @@ function s.activate(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetReset(RESET_EVENT+RESETS_STANDARD+RESET_PHASE+PHASE_END)
 		e1:SetValue(atk)
 		tc:RegisterEffect(e1)
-	end	
+	end 
 end
 
 function s.thfilter(c)
