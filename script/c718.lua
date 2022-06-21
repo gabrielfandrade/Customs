@@ -22,7 +22,6 @@ function s.initial_effect(c)
 	e2:SetType(EFFECT_TYPE_IGNITION)
 	e2:SetCountLimit(1)
 	e2:SetRange(LOCATION_MZONE)
-	e2:SetCondition(s.adcon)
 	e2:SetCost(s.adcost)
 	e2:SetOperation(s.adop)
 	c:RegisterEffect(e2,false,REGISTER_FLAG_DETACH_XMAT)
@@ -42,7 +41,7 @@ end
 function s.negcon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():IsSummonType(SUMMON_TYPE_XYZ)
 end
-function s.filter(c)
+function s.disfilter(c)
 	return c:IsFaceup() and c:IsType(TYPE_XYZ) and c:IsType(TYPE_EFFECT) and not c:IsDisabled()
 end
 function s.negtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
@@ -72,9 +71,6 @@ function s.negop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 
-function s.adcon(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.IsAbleToEnterBP() and not e:GetHandler():IsHasEffect(EFFECT_ATTACK_ALL)
-end
 function s.adcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():CheckRemoveOverlayCard(tp,1,REASON_COST) end
 	e:GetHandler():RemoveOverlayCard(tp,1,1,REASON_COST)
@@ -98,14 +94,14 @@ function s.adop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 
-function s.desfilter(c)
+function s.desfilter2(c)
 	return c:IsType(TYPE_SPELL+TYPE_TRAP)
 end
 function s.destg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return chkc:IsOnField() and s.desfilter(chkc) end
-	if chk==0 then return Duel.IsExistingTarget(s.desfilter,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,nil) end
+	if chkc then return chkc:IsOnField() and s.desfilter2(chkc) end
+	if chk==0 then return Duel.IsExistingTarget(s.desfilter2,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
-	local g=Duel.SelectTarget(tp,s.desfilter,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,1,nil)
+	local g=Duel.SelectTarget(tp,s.desfilter2,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,1,nil)
 	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,1,0,0)
 end
 function s.desop(e,tp,eg,ep,ev,re,r,rp)
