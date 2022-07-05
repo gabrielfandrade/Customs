@@ -38,7 +38,7 @@ function s.initial_effect(c)
 end
 
 function s.spfilter(c)
-	return c:IsAttribute(ATTRIBUTE_WIND) and c:IsAbleToRemoveAsCost()
+	return c:IsAttribute(ATTRIBUTE_WIND) and not c:IsCode(id) and c:IsAbleToRemoveAsCost()
 end
 function s.spcon(e,c)
 	if c==nil then return true end
