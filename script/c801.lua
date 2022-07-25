@@ -118,7 +118,7 @@ function s.tdop(e,tp,eg,ep,ev,re,r,rp)
 			Duel.BreakEffect()
 			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
 			local sg=g:Select(tp,1,1,nil)
-			Duel.Remove(g,POS_FACEUP,REASON_EFFECT)
+			Duel.Remove(sg,POS_FACEUP,REASON_EFFECT)
 		end
 	end
 end
