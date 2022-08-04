@@ -30,7 +30,7 @@ function s.initial_effect(c)
 	--spsummon
 	local e4=Effect.CreateEffect(c)
 	e4:SetDescription(aux.Stringid(id,3))
-	e4:SetCategory(CATEGORY_SPECIAL_SUMMON)
+	e4:SetCategory(CATEGORY_TOHAND+CATEGORY_SEARCH)
 	e4:SetType(EFFECT_TYPE_QUICK_O)
 	e4:SetRange(LOCATION_MZONE)
 	e4:SetCode(EVENT_BECOME_TARGET)
