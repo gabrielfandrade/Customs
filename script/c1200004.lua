@@ -53,11 +53,15 @@ function s.destg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
 	local g=Duel.SelectTarget(tp,s.rmfilter,tp,LOCATION_GRAVE,0,1,1,nil,tp)
 	Duel.SetOperationInfo(0,CATEGORY_REMOVE,g,1,0,0)
+	if g:GetFirst():IsType(TYPE_SYNCHRO) then
+		Duel.SetOperationInfo(0,CATEGORY_REMOVE,1,1,0,0)
+	else 
+		Duel.SetOperationInfo(0,CATEGORY_DESTROY,1,1,0,0)
+	end
 	Duel.SetChainLimit(s.chlimit)
 end
 function s.chlimit(e,ep,tp)
 	local c=e:GetHandler()
-	Debug.Message(c:IsSummonType(SUMMON_TYPE_SYNCHRO))
 	return c:IsSummonType(SUMMON_TYPE_SYNCHRO) and tp==ep
 end
 function s.desop(e,tp,eg,ep,ev,re,r,rp)
@@ -65,23 +69,45 @@ function s.desop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
 	local mtgc=tc:GetTextAttack()//1000
 	if tc and tc:IsRelateToEffect(e) and Duel.Remove(tc,POS_FACEUP,REASON_EFFECT)~=0 then
-		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
-		local g=Duel.SelectTarget(tp,nil,0,LOCATION_ONFIELD,LOCATION_ONFIELD,1,mtgc,nil)
-		if #g>0 then
-			local oc=Duel.Destroy(g,REASON_EFFECT)
-			if oc>0 and c:IsRelateToEffect(e) and c:IsFaceup() then
-				local e1=Effect.CreateEffect(c)
-				e1:SetType(EFFECT_TYPE_SINGLE)
-				e1:SetCode(EFFECT_UPDATE_ATTACK)
-				e1:SetValue(oc*1000)
-				e1:SetReset(RESET_EVENT+RESETS_STANDARD_DISABLE)
-				c:RegisterEffect(e1)
-				local e2=Effect.CreateEffect(c)
-				e2:SetType(EFFECT_TYPE_SINGLE)
-				e2:SetCode(EFFECT_UPDATE_DEFENSE)
-				e2:SetValue(oc*1000)
-				e2:SetReset(RESET_EVENT+RESETS_STANDARD_DISABLE)
-				c:RegisterEffect(e2)
+		if tc:IsType(TYPE_SYNCHRO) then 
+			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
+			local g=Duel.SelectTarget(tp,nil,0,LOCATION_ONFIELD,LOCATION_ONFIELD,1,mtgc,nil)
+			if #g>0 then
+				local oc=Duel.Remove(g,POS_FACEUP,REASON_EFFECT)
+				if oc>0 and c:IsRelateToEffect(e) and c:IsFaceup() then
+					local e1=Effect.CreateEffect(c)
+					e1:SetType(EFFECT_TYPE_SINGLE)
+					e1:SetCode(EFFECT_UPDATE_ATTACK)
+					e1:SetValue(oc*1000)
+					e1:SetReset(RESET_EVENT+RESETS_STANDARD_DISABLE)
+					c:RegisterEffect(e1)
+					local e2=Effect.CreateEffect(c)
+					e2:SetType(EFFECT_TYPE_SINGLE)
+					e2:SetCode(EFFECT_UPDATE_DEFENSE)
+					e2:SetValue(oc*1000)
+					e2:SetReset(RESET_EVENT+RESETS_STANDARD_DISABLE)
+					c:RegisterEffect(e2)
+				end
+			end
+		else
+			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
+			local g=Duel.SelectTarget(tp,nil,0,LOCATION_ONFIELD,LOCATION_ONFIELD,1,mtgc,nil)
+			if #g>0 then
+				local oc=Duel.Destroy(g,REASON_EFFECT)
+				if oc>0 and c:IsRelateToEffect(e) and c:IsFaceup() then
+					local e1=Effect.CreateEffect(c)
+					e1:SetType(EFFECT_TYPE_SINGLE)
+					e1:SetCode(EFFECT_UPDATE_ATTACK)
+					e1:SetValue(oc*1000)
+					e1:SetReset(RESET_EVENT+RESETS_STANDARD_DISABLE)
+					c:RegisterEffect(e1)
+					local e2=Effect.CreateEffect(c)
+					e2:SetType(EFFECT_TYPE_SINGLE)
+					e2:SetCode(EFFECT_UPDATE_DEFENSE)
+					e2:SetValue(oc*1000)
+					e2:SetReset(RESET_EVENT+RESETS_STANDARD_DISABLE)
+					c:RegisterEffect(e2)
+				end
 			end
 		end
 	end
