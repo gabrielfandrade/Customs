@@ -6,7 +6,7 @@ function s.initial_effect(c)
 	e1:SetType(EFFECT_TYPE_FIELD)
 	e1:SetCode(EFFECT_CANNOT_INACTIVATE)
 	e1:SetRange(LOCATION_MZONE)
-	e1:SetCondition(function(_,tp) return Duel.GetLP(tp)>Duel.GetLP(1-tp) end)
+	e1:SetCondition(s.adcon)
 	e1:SetTargetRange(1,0)
 	e1:SetValue(s.efilter)
 	c:RegisterEffect(e1)
@@ -32,6 +32,11 @@ function s.initial_effect(c)
 	e3:SetTarget(s.target)
 	e3:SetOperation(s.operation)
 	c:RegisterEffect(e3)
+end
+
+function s.adcon(e)
+	local tp=e:GetHandlerPlayer()
+	return Duel.GetLP(tp)>Duel.GetLP(1-tp)
 end
 
 function s.efilter(e,ct)
