@@ -42,7 +42,11 @@ function s.setop(e,tp,eg,ep,ev,re,r,rp)
 		local e1=Effect.CreateEffect(e:GetHandler())
 		e1:SetDescription(aux.Stringid(id,3))
 		e1:SetType(EFFECT_TYPE_SINGLE)
-		e1:SetCode(EFFECT_TRAP_ACT_IN_SET_TURN)
+		if tc:IsQuickPlaySpell() then
+			e1:SetCode(EFFECT_QP_ACT_IN_SET_TURN)
+		elseif tc:IsTrap() then
+			e1:SetCode(EFFECT_TRAP_ACT_IN_SET_TURN)
+		end
 		e1:SetProperty(EFFECT_FLAG_SET_AVAILABLE)
 		e1:SetReset(RESET_EVENT|RESETS_STANDARD)
 		tc:RegisterEffect(e1)
