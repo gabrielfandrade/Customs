@@ -1,0 +1,40 @@
+--Zap-Fang
+local s,id=GetID()
+function s.initial_effect(c)
+	c:EnableReviveLimit()
+	--Xyz Summon procedure
+	Xyz.AddProcedure(c,nil,3,2)
+	--draw 1
+	local e1=Effect.CreateEffect(c)
+	e1:SetDescription(aux.Stringid(id,0))
+	e1:SetCategory(CATEGORY_DRAW)
+	e1:SetType(EFFECT_TYPE_IGNITION)
+	e1:SetRange(LOCATION_MZONE)
+	e1:SetCountLimit(1,{id,0})
+	e1:SetCost(aux.dxmcostgen(2,2,nil))
+	e1:SetTarget(s.drtg)
+	e1:SetOperation(s.drop)
+	c:RegisterEffect(e1,false,REGISTER_FLAG_DETACH_XMAT)
+end
+
+function s.drtg(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return Duel.GetFieldGroupCount(tp,LOCATION_HAND,0)>0
+		and Duel.GetFieldGroupCount(tp,0,LOCATION_HAND)>0
+		and Duel.IsPlayerCanDraw(tp,1) and Duel.IsPlayerCanDraw(1-tp,1) end
+	Duel.SetOperationInfo(0,CATEGORY_TODECK,nil,2,0,0)
+	Duel.SetOperationInfo(0,CATEGORY_DRAW,nil,0,PLAYER_ALL,1)
+end
+function s.drop(e,tp,eg,ep,ev,re,r,rp)
+	if Duel.GetFieldGroupCount(tp,LOCATION_HAND,0)==0
+		or Duel.GetFieldGroupCount(tp,0,LOCATION_HAND)==0 then return end
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TODECK)
+	local g1=Duel.SelectMatchingCard(tp,Card.IsAbleToDeck,tp,LOCATION_HAND,0,1,1,nil)
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TODECK)
+	local g2=Duel.SelectMatchingCard(1-tp,Card.IsAbleToDeck,1-tp,LOCATION_HAND,0,1,1,nil)
+	if #g1>0 and #g2>0 and Duel.SendtoDeck(g1,nil,1,REASON_EFFECT)~=0
+		and Duel.SendtoDeck(g2,nil,1,REASON_EFFECT)~=0 then
+		Duel.BreakEffect()
+		Duel.Draw(tp,1,REASON_EFFECT)
+		Duel.Draw(1-tp,1,REASON_EFFECT)
+	end
+end
